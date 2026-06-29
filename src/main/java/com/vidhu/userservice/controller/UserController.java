@@ -19,17 +19,17 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @PostMapping("createUser")
+    @PostMapping("create")
     public ResponseEntity<String> createUser(@RequestBody UserDto user){
         return userService.createUser(user);
     }
 
-    @DeleteMapping("deleteUser")
+    @DeleteMapping("delete")
     public ResponseEntity<String> deleteUser(@RequestParam int id){
         return userService.deleteUser(id);
     }
 
-    @GetMapping("allUsers")
+    @GetMapping("all")
     public ResponseEntity<List<Users>> getAllUsers(){
         return userService.getAllUser();
     }
@@ -39,9 +39,14 @@ public class UserController {
 //        return userService.getUserInfo(id);
 //    }
 
-    @GetMapping("purchase/{make}/{model}")
-    public ResponseEntity<?> doCarPurchase(@RequestParam int userId, @PathVariable String make, @PathVariable String model){
+    @GetMapping("{userId}/get/{make}/{model}")
+    public ResponseEntity<String> getCarInfo(@PathVariable int userId, @PathVariable String make, @PathVariable String model){
         return userService.stockCheck(userId,make,model);
+    }
+
+    @PutMapping("{userId}/purchase")
+    public ResponseEntity<?> doPurchase(@PathVariable int userId, @RequestParam String chasNum){
+        return userService.carPurchase(userId,chasNum);
     }
 
 

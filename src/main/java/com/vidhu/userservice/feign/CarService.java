@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient("CAR-SERVICE")
 public interface CarService {
 
-    @GetMapping("car/carPurchase/{make}/{model}")
-    public ResponseEntity<CarStockResponse> carPurchase(@RequestParam int userId, @PathVariable String make, @PathVariable String model);
+    @GetMapping("car/stockCheck/{make}/{model}")
+    public ResponseEntity<CarStockResponse> stockCheck(@RequestParam int userId, @PathVariable String make, @PathVariable String model);
+
+    @PutMapping("car/purchase")
+    public ResponseEntity<?> carPurchase(@RequestParam int userId, @RequestParam String chaseNumber);
 }

@@ -59,16 +59,24 @@ public class UserService {
 //        }
 //    }
 
-    public ResponseEntity<?> stockCheck(int id, String make, String model) {
+    public ResponseEntity<String> stockCheck(int id, String make, String model) {
         if(!userRepo.existsById(id)) {
             return new ResponseEntity("Please create an user", HttpStatus.NOT_ACCEPTABLE);
         }
-        ResponseEntity<CarStockResponse> carPurchaseRequest = carService.carPurchase(id,make,model);
+        ResponseEntity<CarStockResponse> carPurchaseRequest = carService.stockCheck(id,make,model);
         if(!carPurchaseRequest.getBody().isStockAvailable()){
             return new ResponseEntity(carPurchaseRequest.getBody().getMessage(), HttpStatus.NOT_ACCEPTABLE);
         }
         return new ResponseEntity("Car available for purchase:"+carPurchaseRequest.getBody().getAvailableChassisNumber(), HttpStatus.OK);
 
+
+    }
+
+    public ResponseEntity<?> carPurchase(int userId, String chasNum) {
+        if(!userRepo.existsById(userId)) {
+            return new ResponseEntity("Please create an user", HttpStatus.NOT_ACCEPTABLE);
+        }
+        return carService.carPurchase(userId,chasNum);
 
     }
 }
